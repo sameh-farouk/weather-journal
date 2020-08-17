@@ -45,10 +45,14 @@ document.addEventListener('DOMContentLoaded', main);
 
 function main() {
     const genButton = document.getElementById('generate');
-    genButton.onclick = () => {
+    genButton.addEventListener('click', generate);
+    function generate() {
         const userZipCode = document.getElementById('zip').value;
         const userFeelings = document.getElementById('feelings').value;
-
+        if (!userZipCode) {
+            alert('please enter a valid zip code!');
+            return;
+        }
         getCurrentWeather(userZipCode).then(data => {
             newData = {
                 temperature: data.main.temp,
@@ -56,6 +60,6 @@ function main() {
                 userResponse: userFeelings
             }
             addData(`${serverUrl}/add`, newData).then(updateUI);
-        });
+        });        
     }
 }
