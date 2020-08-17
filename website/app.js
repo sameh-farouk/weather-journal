@@ -11,7 +11,12 @@ let newDate = () => d().getMonth()+'.'+ d().getDate()+'.'+ d().getFullYear();
 /* async function to get Current weather data  */
 async function getCurrentWeather (zipCode) {
     const response = await fetch(apiBaseUrl(zipCode));
-    return await response.json();
+    if (response.ok) {
+        return await response.json();
+    } else {
+        return await Promise.reject(response);
+    }
+    
 }
 
 /* async function to add data to our server */
@@ -60,6 +65,6 @@ function main() {
                 userResponse: userFeelings
             }
             addData(`${serverUrl}/add`, newData).then(updateUI);
-        });        
+        }).catch((err) => alert('Error'));        
     }
 }
